@@ -10,16 +10,13 @@ import LoadingBar from 'react-top-loading-bar'
 export function CartProvider() {
    
     const [pizzaiteam, setpizzaitem] = useState([])
-    const [totalCartitem,settotatCart] = useState([])
     const[cartdetails,setcartdetails]=useState([])
     const dispatch = useDispatch();
 
     const cartItems = useSelector((state) => state.cart.cartItems);
     const ref = useRef(null)
 
-    const getTotalCartItems = () => {
-        return totalCartitem
-      };
+   
 
     var foodItems = [
         {
@@ -111,7 +108,7 @@ export function CartProvider() {
         temp[cartItems[i].id] = cartItems[i]
       }
 
-      if(cartItems.length==0){
+      if(cartItems.length===0){
         temp=[...cartItems]
       }
       setcartdetails(temp)
@@ -131,7 +128,7 @@ export function CartProvider() {
         var temp = id;
         let temparray = [...pizzaiteam];
         for (let i = 0; i < foodItems.length; i++) {
-            if (pizzaiteam[i].id == temp) {
+            if (pizzaiteam[i].id === temp) {
                 temparray[i].isExpanded = !status;
                 setpizzaitem(temparray)
             }
@@ -158,15 +155,15 @@ export function CartProvider() {
         let temparray = [...pizzaiteam];
         
         for (let i = 0; i < foodItems.length; i++) {
-            if (temparray[i].id == temp) {
+            if (temparray[i].id === temp) {
                 let updatedItem = { ...temparray[i] };
-                if(cartdetails[temp]!=undefined){
-                    if (cartdetails[temp].cart != 0) {
+                if(cartdetails[temp]!==undefined){
+                    if (cartdetails[temp].cart !== 0) {
                         dispatch(removeFromCart(updatedItem));
                     }
                 }
                 
-                if (noOfItem == 0) {
+                if (noOfItem === 0) {
                     temparray[i].isExpanded = false;
                     setpizzaitem(temparray)
                 }
@@ -179,7 +176,7 @@ export function CartProvider() {
         let temp = id;
         let temparray = [...pizzaiteam];
         for (let i = 0; i < foodItems.length; i++) {
-            if (temparray[i].id == temp) {
+            if (temparray[i].id === temp) {
                 let updatedItem = { ...temparray[i] };
                 dispatch(addToCart(updatedItem));
             }

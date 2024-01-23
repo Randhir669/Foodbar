@@ -69,7 +69,7 @@ import LoadingBar from 'react-top-loading-bar'
     function handleonchange(item){
         let dish = item
         console.log("dish",dish)
-        if(dish=='FastFood/Pizza')
+        if(dish==='FastFood/Pizza')
         usenavigate(`/${dish}`);
 
 

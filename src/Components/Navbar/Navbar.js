@@ -1,12 +1,9 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
-import { BsSearch } from 'react-icons/bs';
+import React, { useEffect, useState} from 'react';
 import { BiSolidOffer } from 'react-icons/bi'
-import { IoHelpBuoyOutline } from 'react-icons/io5'
 import { FiUser } from 'react-icons/fi'
 import { BsCart } from 'react-icons/bs'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import SignIn from './SignIn';
 
 
 
@@ -22,10 +19,9 @@ export default function Navbar(Props) {
   const [serachtext,setsearchtext] = useState('')
   const users = useSelector((state) => state.cart.users)
   const username = sessionStorage.getItem('username');
-  const [showsearch,setshowsearch]=useState(Props.status)
-  //  const isLoading = useSelector((state) => state.cart.isLoading);
+ 
 
-  const AllItems =['Pizza','Dosa','Burger','Idli','Biryani']
+  const AllItems =['Pizza','pizza','pizz','Pizza']
 
   useEffect(() => {
 
@@ -83,13 +79,12 @@ export default function Navbar(Props) {
     setsearchtext(searchText);
      // Update the search query state
     if(searchText!=""){
-        /*const filteredFiles = AllItems.filter(file =>
-            file.toLowerCase().includes(searchText.toLowerCase())
-        );*/
-          if(searchText=='Pizza'||searchText=='pizza'||searchText=='pizz'||searchText=='Pizz'){
+       
+          
+          if(searchText==='Pizza'||searchText==='pizza'||searchText==='pizz'||searchText==='Pizz'){
             usenavigate('/FastFood/Pizza')
           }
-          if(searchText=='Dosa'||searchText=='dosa'){
+          if(searchText==='Dosa'||searchText==='dosa'){
             usenavigate('/SouthIndian/Dosa')
           }
           console.log(searchText);

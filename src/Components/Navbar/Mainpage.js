@@ -1,7 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import { BiSolidOffer } from 'react-icons/bi'
 import { useNavigate } from 'react-router-dom';
-import Pizza from '../FastFood/FastFood'
 import LoadingBar from 'react-top-loading-bar'
 
 
