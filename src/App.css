@@ -111,3 +111,72 @@ animation: akcss .2s ease;
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* Add this CSS to your stylesheet or component */
+
+.order-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.left-corner {
+  text-align: left;
+  flex: 2;
+}
+
+.right-corner {
+  text-align: right;
+  flex: 2;
+}
+
+.main{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card_shadow{
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;}
+
+  .footer {
+    background-color: black;
+    color: #fefefe;
+    /*position: fixed;*/
+    width: 100%;
+    bottom: 0;
+    left: 0;
+  }
+  
+  
+  .footer .content {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 1.5rem;
+    padding-top: 25px;
+  }
+  
+  .footer .content p {
+    margin-bottom: 1.3rem;
+  }
+  
+  .footer .content a {
+    text-decoration: none;
+    color: #fefefe;
+  }
+  
+  .footer .content a:hover {
+    border-bottom: 1px solid #971717;
+  }
+  
+  .footer .content h4 {
+    margin-bottom: 1.3rem;
+    font-size: 19px;
+  }
+
+  
