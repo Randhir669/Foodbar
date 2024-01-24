@@ -216,7 +216,7 @@ export default function SignIn() {
         <div className='offset-lg-4 col-lg-4'>
           
             <LoadingBar color="#f11946" progress={progress} onLoaderFinished={() => setProgress(0)} />
-            {toaster&&<Toaster toastOptions={{ duration: 4000 }} />}
+         <>{toaster&&<Toaster toastOptions={{ duration: 4000 }} />}</>   
             <div className="card card_shadow" style={{marginTop: '100px', marginBottom: '15px' }}>
                 {showlogin && <>
                     <div className='card-header'>
@@ -240,7 +240,7 @@ export default function SignIn() {
 
                     </div>
                 </>}
-                {showsignup &&
+            <>    {showsignup &&
                     <>
                         <div className='card-header'>
                             <h3 className="text-center">Sign Up</h3>
@@ -263,9 +263,9 @@ export default function SignIn() {
 
                         </div>
                     </>
-                }
+                }</>
 
-                {showotpmodal && <>
+                <>{showotpmodal && <>
                     <div className='card-header'>
                         <h3 className="text-center">Enter OTP</h3>
                         <h6 className='cart_cost'>We've sent an OTP to your phone number.</h6>
@@ -286,7 +286,7 @@ export default function SignIn() {
                         </div>
 
                     </div>
-                </>}
+                </>}</>
             </div>
         </div>
     )

@@ -185,15 +185,15 @@ export default function CartPage() {
                                 </li>
                             ))}
 
-                        {cartItems.length === 0 &&
+                    <>    {cartItems.length === 0 &&
                             <img
                                 src="https://mir-s3-cdn-cf.behance.net/projects/404/95974e121862329.Y3JvcCw5MjIsNzIxLDAsMTM5.png"
                                 style={{ height: '100%', width: '100%' }}
                                 className="b_radius cursor d-inline-block"
                             />
-                        }
+                        }</>
 
-                        {!cartItems.length === 0 &&
+                        <>{!cartItems.length === 0 &&
                             <>
                                 <li className="list-group-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <textarea className="form-control" onChange = {e=>setsuggestion(e.target.value)} placeholder='Any suggestions? We will pass it on...' id="exampleFormControlTextarea1" rows="2" col="5"></textarea>
@@ -236,7 +236,7 @@ export default function CartPage() {
                                         <button className='btn btn-sm btn-success' onClick={confirmOrder}>Confirm Order</button>
                                     </div>
                                 </li>
-                            </>}
+                            </>}</>
 
 
 
