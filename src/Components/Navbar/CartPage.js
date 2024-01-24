@@ -17,7 +17,7 @@ export default function CartPage() {
     const[address,setaddress] = useState('')
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
     const ref = useRef(null) 
-
+    const url ='https://ooj2f1apol.execute-api.us-west-2.amazonaws.com'
     
 
     const usenavigate = useNavigate()
@@ -117,7 +117,7 @@ export default function CartPage() {
 
    var obj = oderdetails
         try {
-            const response = await fetch('http://localhost:3000/placedorders', {
+            const response = await fetch(url+'/placedorders', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

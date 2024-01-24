@@ -7,6 +7,7 @@ export default function OrderedItems() {
     //var confirmOrders = useSelector((state) => state.cart.confirmOrders);
     const ref = useRef(null)
     const [confirmOrders, setconfirmOrders] = useState([])
+    const url ='https://ooj2f1apol.execute-api.us-west-2.amazonaws.com'
     const options = {
         year: "numeric",
         month: "2-digit",
@@ -33,7 +34,7 @@ export default function OrderedItems() {
         var phone = sessionStorage.getItem('phone');
         console.log("phone===", phone)
         try {
-            const response = await fetch(`http://localhost:3000/getallorders/${phone}`); // Replace with your actual API endpoint
+            const response = await fetch(`${url}/getallorders/${phone}`); // Replace with your actual API endpoint
             if (response.ok) {
                 const data = await response.json();
 
@@ -64,7 +65,7 @@ export default function OrderedItems() {
 
             let orderid = pastorders[i].orderid
             try {
-                const response = await fetch(`http://localhost:3000/getallcartsitems/${orderid}`); // Replace with your actual API endpoint
+                const response = await fetch(`${url}/getallcartsitems/${orderid}`); // Replace with your actual API endpoint
                 if (response.ok) {
                     const data = await response.json();
 

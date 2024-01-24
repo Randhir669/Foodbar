@@ -31,6 +31,7 @@ export default function SignIn() {
     const[toaster,settoaster] = useState(false)
     const usenavigate = useNavigate();
     var signinuser = []
+    const url ='https://ooj2f1apol.execute-api.us-west-2.amazonaws.com'
 
 
     async function handlelogin(status) {
@@ -161,7 +162,7 @@ export default function SignIn() {
         obj.id = Math.floor(Math.random() * (1000 - 1)) + 1;
 
         try {
-            const response = await fetch('http://localhost:3000/addusers', {
+            const response = await fetch(url+'/addusers', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -190,7 +191,7 @@ export default function SignIn() {
     const checkUser = async (phoneNumberToCheck) => {
         console.log("Inside checkuser")
         try {
-            const response = await fetch(`http://localhost:3000/users/${phoneNumberToCheck}`); // Replace with your actual API endpoint
+            const response = await fetch(`${url}/users/${phoneNumberToCheck}`); // Replace with your actual API endpoint
             if (response.ok) {
                 const data = await response.json();
                 signinuser = data
