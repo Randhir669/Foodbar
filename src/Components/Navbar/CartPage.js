@@ -193,7 +193,7 @@ export default function CartPage() {
                             />
                         }</>
 
-                        <>{!cartItems.length === 0 &&
+                        <ul class="list-group ">{cartItems.length !== 0 &&
                             <>
                                 <li className="list-group-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <textarea className="form-control" onChange = {e=>setsuggestion(e.target.value)} placeholder='Any suggestions? We will pass it on...' id="exampleFormControlTextarea1" rows="2" col="5"></textarea>
@@ -236,7 +236,7 @@ export default function CartPage() {
                                         <button className='btn btn-sm btn-success' onClick={confirmOrder}>Confirm Order</button>
                                     </div>
                                 </li>
-                            </>}</>
+                            </>}</ul>
 
 
 

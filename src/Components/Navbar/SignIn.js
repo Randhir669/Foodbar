@@ -216,7 +216,7 @@ export default function SignIn() {
         <div className='offset-lg-4 col-lg-4'>
           
             <LoadingBar color="#f11946" progress={progress} onLoaderFinished={() => setProgress(0)} />
-         <>{toaster&&<Toaster toastOptions={{ duration: 4000 }} />}</>   
+        {/* <>{toaster&&<Toaster toastOptions={{ duration: 4000 }} />}</>   */}
             <div className="card card_shadow" style={{marginTop: '100px', marginBottom: '15px' }}>
                 {showlogin && <>
                     <div className='card-header'>
