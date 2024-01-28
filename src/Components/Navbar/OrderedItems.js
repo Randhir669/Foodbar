@@ -1,12 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 //import { useSelector } from 'react-redux';
 import LoadingBar from 'react-top-loading-bar'
+import Spinner from 'react-bootstrap/Spinner';
 export default function OrderedItems() {
     // Initialize orderDetails as a state variable
     debugger
     //var confirmOrders = useSelector((state) => state.cart.confirmOrders);
     const ref = useRef(null)
     const [confirmOrders, setconfirmOrders] = useState([])
+    const[gotorders,setgotorders]=useState(true)
+    const username = sessionStorage.getItem('username');
     const url ='https://ooj2f1apol.execute-api.us-west-2.amazonaws.com'
     const options = {
         year: "numeric",
@@ -23,8 +26,12 @@ export default function OrderedItems() {
         const fetchData = async () => {
             // Now you can safely use confirmorders here
             ref.current.continuousStart();
-            await fetchpastorders();  
+            if(username){
+                await fetchpastorders();  
+            }         
             ref.current.complete();
+            setgotorders(false)
+
         };
     
         fetchData();
@@ -43,7 +50,7 @@ export default function OrderedItems() {
                     console.log("data", data)
                     
                     fetchcartitems(data)
-                    //confirmOrders = data
+                   //confirmOrders = data
                     return true;
                 }
                 else
@@ -60,7 +67,6 @@ export default function OrderedItems() {
     }
 
     async function fetchcartitems(pastorders) {
-
         for (let i = 0; i < pastorders.length; i++) {
 
             let orderid = pastorders[i].orderid
@@ -97,7 +103,8 @@ export default function OrderedItems() {
                 <LoadingBar color="#f11946" ref={ref} shadow={true} />
                 <div className='row main'>
                     <div className='col-lg-6'>
-                        <h6>Order Details</h6>                      
+                        <h6>Order Details</h6>  
+                     {gotorders&&<Spinner animation="border" /> }                
                         <ul class="list-group">
                             {confirmOrders.map((CartItems, index) => (
                                 <>

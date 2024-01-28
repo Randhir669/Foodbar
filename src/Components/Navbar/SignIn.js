@@ -31,7 +31,7 @@ export default function SignIn() {
     const[toaster,settoaster] = useState(false)
     const usenavigate = useNavigate();
     var signinuser = []
-    const url ='https://ooj2f1apol.execute-api.us-west-2.amazonaws.com'
+    const url = 'https://ooj2f1apol.execute-api.us-west-2.amazonaws.com'
 
 
     async function handlelogin(status) {
@@ -112,8 +112,14 @@ export default function SignIn() {
             try{
         final.confirm(otp).then((result) => {
             setProgress(100)
-            sessionStorage.setItem('username',authname)
-            sessionStorage.setItem('phone',authphoneno)
+            if(authname==''){
+                sessionStorage.setItem('username',name)
+                sessionStorage.setItem('phone',phoneno)
+
+            }else{
+                sessionStorage.setItem('username',authname)
+                sessionStorage.setItem('phone',authphoneno)
+            }
             usenavigate('/')
         }).catch((err) => {
             setInvalidOTP(true)
@@ -175,7 +181,6 @@ export default function SignIn() {
               //  setcurrentuser(obj);
                 sessionStorage.setItem('username', name)
                 sessionStorage.setItem('phone', phoneno)
-                console.log('User added:', data);
                 return true;
             } else {
                 console.error('Failed to add user');
@@ -198,7 +203,6 @@ export default function SignIn() {
                 if (data.length !== 0) {
                     setauthname(data[0].fullname)
                     setauthphoneno(data[0].phone)
-                    console.log("data.fullname", data[0].fullname)
                     return true;
                 }
                 else
