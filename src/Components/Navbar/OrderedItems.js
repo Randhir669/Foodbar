@@ -98,7 +98,10 @@ export default function OrderedItems() {
                 console.error('Error:', error);
             }
         }
-        setconfirmOrders(pastorders)
+        if(pastorders!==undefined){
+            setconfirmOrders(pastorders)
+        }
+        
         ref.current.complete();
         setgotorders(false)
       

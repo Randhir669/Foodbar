@@ -100,10 +100,10 @@ export default function CartPage() {
             dispatch(addconfirmorder(temp[0]))
             dispatch({ type: 'Remove_All_from__CART' });
             storeordertodb(obj) 
-            setTimeout(() => {
+          /*  setTimeout(() => {
                 usenavigate('/OrderedItems')
                 
-            }, 100);
+            }, 100);*/
 
         } else {
             usenavigate('/SignIn')
