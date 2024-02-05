@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-//import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar'
 import Spinner from 'react-bootstrap/Spinner';
 export default function OrderedItems() {
@@ -11,6 +11,7 @@ export default function OrderedItems() {
     const[pastnoorders,setpastnoorders] = useState(false)
     const username = sessionStorage.getItem('username');
     const url = 'https://ooj2f1apol.execute-api.us-west-2.amazonaws.com'
+    const usenavigate = useNavigate();
     const options = {
         year: "numeric",
         month: "2-digit",
@@ -101,9 +102,10 @@ export default function OrderedItems() {
         ref.current.complete();
         setgotorders(false)
       
+    }
 
-
-
+    function navigatetopage(){
+        usenavigate('/SignIn')
     }
 
 
@@ -117,7 +119,7 @@ export default function OrderedItems() {
 
                         {noorders && <p className='my-2'>Please <a href='/SignIn' style={{ color: "blue", textDecoration: "underline" }}>SignIn</a> to See Past Orders</p>}
                         {gotorders && <Spinner animation="border" />}
-                      {pastnoorders&&  <p>No orders yet <a  href='/' style={{ color: "green", textDecoration: "underline" }}>Browse Foods</a></p>}
+                      {pastnoorders&&  <p>No orders yet <a  onClick = {navigatetopage} style={{ color: "green", textDecoration: "underline" }}>Browse Foods</a></p>}
                         <ul class="list-group">
                             {confirmOrders.map((CartItems, index) => (
                                 <>
