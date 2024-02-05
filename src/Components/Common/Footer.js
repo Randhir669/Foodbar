@@ -33,7 +33,7 @@ export default function Footer() {
                 </div>
                 <footer>
                     <hr />
-                    Copyright © 2023 <a href="https://foodbar.com" style={{ color: "white", textDecoration: "underline" }}>foodbar.com</a> All rights reserved
+                    Copyright © 2023 <a href="https://foodiebar.netlify.app" style={{ color: "white", textDecoration: "underline" }}>foodbar.com</a> All rights reserved
                 </footer>
 
             </div>

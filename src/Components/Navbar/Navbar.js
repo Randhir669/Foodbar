@@ -59,7 +59,7 @@ export default function Navbar(Props) {
   function handletosignIn() {
     if (currentuser == 'SignIn') {
       usenavigate('/SignIn')
-
+   
 
     } else {
 
@@ -101,7 +101,7 @@ export default function Navbar(Props) {
   return (
     <div>
 
-      <nav className="navbar  navbar-expand-md bd-navbar" >
+      <nav className="navbar bg-light navbar-expand-md bd-navbar fixed-top"  >
         <div className="container-fluid">
           <a className="navbar-brand navfont space" href="#" onClick={handletohome}>
             <img src="https://iconape.com/wp-content/png_logo_vector/food-bar-logo.png" alt="" style={{ height: '90px', width: '100px' }} className="d-inline-block zoom-image" />
@@ -143,7 +143,7 @@ export default function Navbar(Props) {
           </div>
         </div>
       </nav>
-
+      
     </div>
 
   )

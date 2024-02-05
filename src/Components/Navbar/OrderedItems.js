@@ -3,14 +3,14 @@ import React, { useEffect, useState, useRef } from 'react';
 import LoadingBar from 'react-top-loading-bar'
 import Spinner from 'react-bootstrap/Spinner';
 export default function OrderedItems() {
-    // Initialize orderDetails as a state variable
-    debugger
     //var confirmOrders = useSelector((state) => state.cart.confirmOrders);
     const ref = useRef(null)
     const [confirmOrders, setconfirmOrders] = useState([])
-    const[gotorders,setgotorders]=useState(true)
+    const [gotorders, setgotorders] = useState(true)
+    const [noorders, setnoorders] = useState(false)
+    const[pastnoorders,setpastnoorders] = useState(false)
     const username = sessionStorage.getItem('username');
-    const url ='https://ooj2f1apol.execute-api.us-west-2.amazonaws.com'
+    const url = 'https://ooj2f1apol.execute-api.us-west-2.amazonaws.com'
     const options = {
         year: "numeric",
         month: "2-digit",
@@ -19,21 +19,23 @@ export default function OrderedItems() {
         minute: "2-digit",
         second: "2-digit",
         timeZoneName: "short",
-      };
+    };
 
 
-      useEffect(() => {
+    useEffect(() => {
         const fetchData = async () => {
-            // Now you can safely use confirmorders here
             ref.current.continuousStart();
-            if(username){
-                await fetchpastorders();  
-            }         
-            ref.current.complete();
-            setgotorders(false)
+            if (username) {
+                await fetchpastorders();
+            } else {
+                ref.current.complete();
+                setgotorders(false)
+                setnoorders(true)
+            }
+
 
         };
-    
+
         fetchData();
     }, []);  // eslint-disable-line
 
@@ -48,13 +50,19 @@ export default function OrderedItems() {
                 if (data.length !== 0) {
                     console.log("Orderdetails===", data)
                     console.log("data", data)
-                    
-                    fetchcartitems(data)
-                   //confirmOrders = data
-                    return true;
-                }
-                else
+                    setTimeout(() => {
+                        fetchcartitems(data)
+
+                    }, 1000);
+                }else{
+                    console.log("No orders")
+                    ref.current.complete();
+                    setgotorders(false)
+                    setpastnoorders(true)
+
                     return false
+                }
+                    
             } else {
                 console.error('Failed to fetch user');
                 return false;
@@ -76,26 +84,28 @@ export default function OrderedItems() {
                     const data = await response.json();
 
                     if (data.length !== 0) {
-                        console.log("Cartdetails===", data)
+                       
                         pastorders[i].cartItems = data
-                        console.log("pastorders",pastorders)  
+                    
                     }
-              
+
                 } else {
                     console.error('Failed to fetch data');
-                    
+
                 }
             } catch (error) {
                 console.error('Error:', error);
             }
         }
         setconfirmOrders(pastorders)
-        console.log("confirmOrders",confirmOrders)
+        ref.current.complete();
+        setgotorders(false)
+      
 
 
 
     }
-  
+
 
     return (
         <div>
@@ -103,14 +113,15 @@ export default function OrderedItems() {
                 <LoadingBar color="#f11946" ref={ref} shadow={true} />
                 <div className='row main'>
                     <div className='col-lg-6'>
-                        <h6>Order Details</h6>  
-                     {gotorders&&<Spinner animation="border" /> }                
+                        <h3 className='my-2'>Orders</h3>
+
+                        {noorders && <p className='my-2'>Please <a href='/SignIn' style={{ color: "blue", textDecoration: "underline" }}>SignIn</a> to See Past Orders</p>}
+                        {gotorders && <Spinner animation="border" />}
+                      {pastnoorders&&  <p>No orders yet <a  href='/' style={{ color: "green", textDecoration: "underline" }}>Browse Foods</a></p>}
                         <ul class="list-group">
                             {confirmOrders.map((CartItems, index) => (
                                 <>
-
-
-                                       {CartItems.cartItems.map((foodItem, index) => (
+                                    {CartItems.cartItems.map((foodItem, index) => (
                                         <li className="list-group-item" style={{ display: 'flex', alignItems: 'center' }}>
                                             <img
                                                 src={foodItem.imageurl}
@@ -125,10 +136,11 @@ export default function OrderedItems() {
                                                 &nbsp;&nbsp;<span>₹{foodItem.cost} <b>*{foodItem.cart}</b></span>
                                             </div>
                                         </li>
-                                ))}
+                                    ))}
+                                  
                                     <div className='list-group-item order-details'>
                                         <div className='row'>
-                                            <div className='left-corner '>
+                                        <div className='left-corner '>
                                                 <h6 className='cart_cost'>Total: {CartItems.totalamount}</h6>
                                                 <h6 className='cart_cost'>Payment Mode: {CartItems.paymentmode}</h6>
                                                 <h6 className='cart_cost'>Address: {CartItems.address}</h6>

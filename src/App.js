@@ -27,10 +27,10 @@ function App(props) {
           <Route path='' element={
             <>
             <div className='row' style = {{marginBottom:'90px'}}>
-            <Navbar status = {true}/>
-            <hr/>
+              <Navbar status = {true}/>
+              
+            <div className='' style = {{marginTop:'130px'}}>
             <Breadcrumbs />
-            <div className='' style = {{marginTop:'10px'}}>
             <Mainpage/>
             </div>
             </div>
@@ -44,9 +44,8 @@ function App(props) {
             <>
             <div className='row' style = {{marginBottom:'30px'}}>
             <Navbar status = {true}/>
-            <hr/>
+            <div className=''  style = {{marginTop:'130px'}}>
             <Breadcrumbs/>
-            <div className='bg-light'  style = {{marginTop:'10px'}}>
             <FastFood/>
             </div>
             </div>
@@ -74,9 +73,8 @@ function App(props) {
             <>
             <div className='row' style = {{marginBottom:'30px'}}>
             <Navbar status = {true}/>
-            <hr/>
+            <div className=''  style = {{marginTop:'130px'}}>
             <Breadcrumbs />
-            <div className='bg-light'  style = {{marginTop:'10px'}}>
             <SouthIndian/>
             </div>
      
@@ -91,9 +89,8 @@ function App(props) {
             <>
             <div className='row' style = {{marginBottom:'30px'}}>
             <Navbar status = {true}/>
-            <hr/>
+            <div className=''  style = {{marginTop:'130px'}}>
             <Breadcrumbs />
-            <div className='bg-light'  style = {{marginTop:'10px'}}>
             <NorthIndian/>
             </div>
            
@@ -108,9 +105,8 @@ function App(props) {
             <>
             <div className='row' style = {{marginBottom:'30px'}}>
            <Navbar status = {true}/>
-            <hr/>
+            <div className=''  style = {{marginTop:'130px'}}>
             <Breadcrumbs />
-            <div className='bg-light'  style = {{marginTop:'10px'}}>
             <CartProvider cartItems={props.cartItems} />
             </div>
            
@@ -125,9 +121,8 @@ function App(props) {
             <>
             <div className='row' style = {{marginBottom:'30px'}}>
            <Navbar  status = {false}/>
-            <hr/>
+            <div className=''  style = {{marginTop:'130px'}}>
             <Breadcrumbs />
-            <div className='bg-light'  style = {{marginTop:'10px'}}>
             <CartPage/>
             </div>
             </div>
@@ -141,9 +136,8 @@ function App(props) {
             <>
             <div className='row' style = {{marginBottom:'30px'}}>
            <Navbar status = {false}/>
-            <hr/>
+            <div className=''  style = {{marginTop:'130px'}}>
             <Breadcrumbs />
-            <div className=''  style = {{marginTop:'10px'}}>
             <SignIn/>
             </div>
           
@@ -158,9 +152,8 @@ function App(props) {
             <>
             <div className='row' style = {{marginBottom:'30px'}}>
             <Navbar status = {false}/>
-            <hr/>
+            <div className=''  style = {{marginTop:'130px'}}>
             <Breadcrumbs />
-            <div className='bg-light'  style = {{marginTop:'10px'}}>
             <OrderedItems/>
             </div>
             
@@ -174,10 +167,9 @@ function App(props) {
       <Route path='/SignOut' element={
             <>
             <div className='row' style = {{marginBottom:'30px'}}>
-            <Navbar status = {false}/>
-            <hr/>
+            <Navbar status = {false}/> 
+            <div className=''  style = {{marginTop:'130px'}}>
             <Breadcrumbs />
-            <div className='bg-light'  style = {{marginTop:'10px'}}>
             <Signout/>
             </div>
        
@@ -192,9 +184,8 @@ function App(props) {
             <>
             <div className='row' style = {{marginBottom:'30px'}}>
             <Navbar status = {true}/>
-            <hr/>
+            <div className=''  style = {{marginTop:'130px'}}>
             <Breadcrumbs />
-            <div className='bg-light'  style = {{marginTop:'10px'}}>
             <Dosa/>
             </div>
             

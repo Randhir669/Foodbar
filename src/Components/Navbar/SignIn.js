@@ -37,6 +37,7 @@ export default function SignIn() {
     async function handlelogin(status) {
         settoaster(true)
         setProgress(progress + 10)
+        setIsLoading(true);
         console.log("inside login")
         if (phoneno === "" || phoneno.length < 10){
             return;
@@ -47,8 +48,6 @@ export default function SignIn() {
         }
         debugger
         if (userExists || newuserexist) {
-            setIsLoading(true);
-          
             let verify = new RecaptchaVerifier(auth, 'recaptcha-container');;
             try {
                 signInWithPhoneNumber(auth, phoneno, verify, { timeout: 50000 })

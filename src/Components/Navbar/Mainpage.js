@@ -55,6 +55,7 @@ export default function Mainpage() {
     function handlechangetomenu(item) {
         let dish = item
         console.log("dish", dish)
+        if(dish==='FastFood'||dish==='SouthIndian')
         usenavigate(`/${dish}`);
     }
 

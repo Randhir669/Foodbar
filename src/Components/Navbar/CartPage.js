@@ -99,10 +99,11 @@ export default function CartPage() {
         if (username != null) {
             dispatch(addconfirmorder(temp[0]))
             dispatch({ type: 'Remove_All_from__CART' });
-            storeordertodb(obj)
-            usenavigate('/OrderedItems')
-            
-            
+            storeordertodb(obj) 
+            setTimeout(() => {
+                usenavigate('/OrderedItems')
+                
+            }, 100);
 
         } else {
             usenavigate('/SignIn')

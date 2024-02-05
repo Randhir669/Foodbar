@@ -75,7 +75,7 @@ export default function SouthIndian() {
   return (
     <div>
 
-            <div className='bg-light'>
+            <div className=''>
             <LoadingBar color="#f11946" ref={ref} shadow={true} />
                 <div className='row '>
                     {foodItems.map((foodItem, index) => (
