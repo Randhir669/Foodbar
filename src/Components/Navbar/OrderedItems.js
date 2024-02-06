@@ -88,6 +88,8 @@ export default function OrderedItems() {
                        
                         pastorders[i].cartItems = data
                     
+                    }else{
+                        pastorders[i].cartItems=[]
                     }
 
                 } else {
@@ -98,6 +100,7 @@ export default function OrderedItems() {
                 console.error('Error:', error);
             }
         }
+        console.log("pastorders===",pastorders)
         if(pastorders!==undefined){
             setconfirmOrders(pastorders)
         }
