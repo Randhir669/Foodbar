@@ -115,7 +115,7 @@ export function CartProvider() {
 
     }
 
-    function add(id, status) {
+    function add(id, status,cartitem) {
 
         var temp = id;
         let temparray = [...dosaiteam];
@@ -126,6 +126,7 @@ export function CartProvider() {
             }
         }
 
+        additem(id,cartitem)
 
     };
 
@@ -181,9 +182,9 @@ export function CartProvider() {
                             <div className='card-footer '>
                                 <h6>{foodItem.name}</h6>
                                 <div className='row main'>
-                                    <div className='col-lg-6'>
+                                    <div className='col-lg-6 align-items-center'>
                                         <b>₹{foodItem.cost}</b>&nbsp;&nbsp;&nbsp;&nbsp;
-                                        {(cartdetails[foodItem.id] == undefined ? (!foodItem.isExpanded) : false) ? (<button className='btn btn-sm btn-success' onClick={e => add(foodItem.id, foodItem.isExpanded)}>Add</button>)
+                                        {(cartdetails[foodItem.id] == undefined ? (!foodItem.isExpanded) : false) ? (<button className='btn btn-sm btn-success' onClick={e => add(foodItem.id, foodItem.isExpanded,foodItem.cart)}>Add</button>)
                                             : (
                                                 <>
                                                     <button className='btn btn-sm btn-default' onClick={e => removeitem(foodItem.id, 2)}><b>-</b></button><b>{cartdetails[foodItem.id] == undefined ? 0 : cartdetails[foodItem.id].cart}</b>

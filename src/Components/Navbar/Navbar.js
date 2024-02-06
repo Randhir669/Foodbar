@@ -59,7 +59,7 @@ export default function Navbar(Props) {
   function handletosignIn() {
     if (currentuser == 'SignIn') {
       usenavigate('/SignIn')
-   
+        
 
     } else {
 
@@ -101,7 +101,7 @@ export default function Navbar(Props) {
   return (
     <div>
 
-      <nav className="navbar bg-light navbar-expand-md bd-navbar fixed-top"  >
+      <nav className="navbar bg-light navbar-expand-md bd-navbar"  >
         <div className="container-fluid">
           <a className="navbar-brand navfont space" href="#" onClick={handletohome}>
             <img src="https://iconape.com/wp-content/png_logo_vector/food-bar-logo.png" alt="" style={{ height: '90px', width: '100px' }} className="d-inline-block zoom-image" />
@@ -118,7 +118,7 @@ export default function Navbar(Props) {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="navbar-collapse collapse" id="bdNavbar" >
-            <ul className="navbar-nav  bd-navbar justify-content-end ml-auto mb-6 mb-lg-0">
+            <ul className="navbar-nav ms-auto bd-navbar justify-content-end ml-auto mb-6 mb-lg-0">
               <li className="nav-item navfont space ">
                 
               { Props.status &&   <input className="form-control mr-sm-2" type="search"  onChange = {filterItems} placeholder="Search" aria-label="Search" >

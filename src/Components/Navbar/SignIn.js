@@ -22,8 +22,6 @@ export default function SignIn() {
     const [otp, setotp] = useState('');
     const [final, setfinal] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-   // const[currentuser,setcurrentuser] = useState('')
-  //  const [newuser, setnewuser] = useState(false)
     const [progress, setProgress] = useState(0)
     const [isDisabled, setIsDisabled] = useState(true)
     const[authname,setauthname]=useState('')
@@ -47,7 +45,7 @@ export default function SignIn() {
             var userExists = await checkUser(phoneno);
         }
         debugger
-        if (userExists || newuserexist) {
+        if (userExists || newuserexist) {         
             let verify = new RecaptchaVerifier(auth, 'recaptcha-container');;
             try {
                 signInWithPhoneNumber(auth, phoneno, verify, { timeout: 50000 })
@@ -80,6 +78,7 @@ export default function SignIn() {
         } else {
             setloginIn(false)
             setSignUpIn(true)
+            setIsLoading(false);
 
         }
     }
@@ -96,7 +95,9 @@ export default function SignIn() {
             }
                 
         }else{
+            
             setIsDisabled(true)
+            
         }
 
     }
@@ -156,9 +157,8 @@ export default function SignIn() {
      
     }
 
-    // Button click handler
-
     async function addusertodb() {
+        setIsLoading(true);
       console.log("phone",phoneno)
         var obj = {}
         obj.phone = phoneno??0
@@ -180,6 +180,7 @@ export default function SignIn() {
               //  setcurrentuser(obj);
                 sessionStorage.setItem('username', name)
                 sessionStorage.setItem('phone', phoneno)
+                setIsLoading(false);
                 return true;
             } else {
                 console.error('Failed to add user');
@@ -219,8 +220,8 @@ export default function SignIn() {
         <div className='offset-lg-4 col-lg-4'>
           
             <LoadingBar color="#f11946" progress={progress} onLoaderFinished={() => setProgress(0)} />
-        {/* <>{toaster&&<Toaster toastOptions={{ duration: 4000 }} />}</>   */}
             <div className="card card_shadow" style={{marginTop: '100px', marginBottom: '15px' }}>
+            {toaster&&<Toaster toastOptions={{ duration: 4000 }} />}
                 {showlogin && <>
                     <div className='card-header'>
                         <h3 className="text-center">Login</h3>
