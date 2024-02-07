@@ -1,8 +1,8 @@
-import React, { useEffect, useState ,useRef} from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { addToCart, removeFromCart,addconfirmorder } from '../Actions/CartActions'
+import { addToCart, removeFromCart, addconfirmorder } from '../Actions/CartActions'
 import { useNavigate } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar'
 
@@ -10,15 +10,15 @@ import LoadingBar from 'react-top-loading-bar'
 export default function CartPage() {
 
     const cartItems = useSelector((state) => state.cart.cartItems);
-    const[orderedItems,setorderedItems] = useState([])
+    const [orderedItems, setorderedItems] = useState([])
     const dispatch = useDispatch();
     const [totatcartcost, settotatcartcost] = useState(0)
-    const[suggestion,setsuggestion] = useState('')
-    const[address,setaddress] = useState('')
+    const [suggestion, setsuggestion] = useState('')
+    const [address, setaddress] = useState('')
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
-    const ref = useRef(null) 
+    const ref = useRef(null)
     const url ='https://ooj2f1apol.execute-api.us-west-2.amazonaws.com'
-    
+    const savedaddress = sessionStorage.getItem('address');
 
     const usenavigate = useNavigate()
 
@@ -28,6 +28,8 @@ export default function CartPage() {
         ref.current.continuousStart()
         counttotatcost();
         ref.current.complete()
+        console.log("savedaddress", savedaddress, sessionStorage.getItem('address'))
+        setaddress(savedaddress)
 
     }, [cartItems]);
 
@@ -65,60 +67,45 @@ export default function CartPage() {
         let updatedItem = temparray.filter(item => item.id === temp);
         updatedItem.cart = noOfItem + 1;
         temparray[temp] = updatedItem;
-        // setpizzaitem(temparray)
-
-        //  let totalcarts = [...totalCartitem];
-        // totalcarts.push(temparray[temp])
-        //  settotatCart(totalcarts)
-
         dispatch(addToCart(updatedItem[0]));
 
     }
 
-     function confirmOrder() {
+    async function confirmOrder() {
         var username = sessionStorage.getItem('username');
         var obj = {}
-        obj.cartItems=cartItems
-        obj.suggestion=suggestion
-        obj.address=address
+        obj.cartItems = cartItems
+        obj.suggestion = suggestion
+        obj.address = address
         obj.Username = username
         obj.totalamount = totatcartcost
         obj.paymentmode = selectedPaymentMethod
         obj.date = new Date();
         obj.status = "Odered"
         obj.phone = sessionStorage.getItem('phone');
-        obj.orderId = "Food"+generateOrderId();
-
-
-        console.log("Obj",obj)
+        obj.orderId = "Food" + generateOrderId();
 
         let temp = [...orderedItems]
         temp.push(obj)
         setorderedItems(temp)
-       
+
         if (username != null) {
             dispatch(addconfirmorder(temp[0]))
             dispatch({ type: 'Remove_All_from__CART' });
-            storeordertodb(obj) 
-          /*  setTimeout(() => {
-                usenavigate('/OrderedItems')
-                
-            }, 100);*/
+            const status = await storeordertodb(obj)
 
         } else {
             usenavigate('/SignIn')
         }
-        
+
 
     }
 
-  async  function storeordertodb(oderdetails){
+    async function storeordertodb(oderdetails) {
 
-    console.log("oderdetails===",oderdetails)
-
-   var obj = oderdetails
+        var obj = oderdetails
         try {
-            const response = await fetch(url+'/placedorders', {
+            const response = await fetch(url + '/placedorders', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -142,26 +129,32 @@ export default function CartPage() {
     }
 
     function generateOrderId() {
-       
+
         const timestamp = new Date().getTime();
-      
-        
         const randomNum = Math.floor(Math.random() * 1000);
         const orderId = `${timestamp}-${randomNum}`;
-      
+
         return orderId;
-      }
-      
+    }
+
     const handlePaymentMethodChange = (event) => {
         setSelectedPaymentMethod(event.target.value); // Update the state with the selected value
-      };
+    };
+
+    function handleaddress(event) {
+        setaddress(event.target.value)
+        sessionStorage.setItem('address', event.target.value);
+        let add = sessionStorage.getItem('address');
+
+
+    }
 
     return (
         <div className='bg-light'>
             <LoadingBar color="#f11946" ref={ref} shadow={true} />
             <div className='row main'>
                 <div className='col-lg-6 '>
-                   
+
                     <ul class="list-group ">
                         {cartItems.filter((foodItem) => foodItem.cart > 0)
                             .map((foodItem, index) => (
@@ -186,7 +179,7 @@ export default function CartPage() {
                                 </li>
                             ))}
 
-                    <>    {cartItems.length === 0 &&
+                        <>    {cartItems.length === 0 &&
                             <img
                                 src="https://mir-s3-cdn-cf.behance.net/projects/404/95974e121862329.Y3JvcCw5MjIsNzIxLDAsMTM5.png"
                                 style={{ height: '100%', width: '100%' }}
@@ -197,29 +190,29 @@ export default function CartPage() {
                         <ul class="list-group ">{cartItems.length !== 0 &&
                             <>
                                 <li className="list-group-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <textarea className="form-control" onChange = {e=>setsuggestion(e.target.value)} placeholder='Any suggestions? We will pass it on...' id="exampleFormControlTextarea1" rows="2" col="5"></textarea>
+                                    <textarea className="form-control" onChange={e => setsuggestion(e.target.value)} placeholder='Any suggestions? We will pass it on...' id="exampleFormControlTextarea1" rows="2" col="5"></textarea>
 
                                 </li>
                                 <li className="list-group-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <textarea className="form-control" onChange = {e=>setaddress(e.target.value)} placeholder='Address..' id="exampleFormControlTextarea1" rows="2" col="5"></textarea>
+                                    <textarea className="form-control" value={address} onChange={handleaddress} placeholder='Address..' id="exampleFormControlTextarea1" rows="2" col="5"></textarea>
 
                                 </li>
                                 <li className="list-group-item" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <h6>Total Pay</h6>
                                     <div style={{ flex: 1 }}>
-                                      
-                                            <input type="radio" className='form-check-input' name="paymentMethod" id="flexRadioDefault1" value="COD"
-                                             checked={selectedPaymentMethod === 'COD'}
-                                             onChange={handlePaymentMethodChange}
-                                            />&nbsp;
-                                            <label class="form-check-label cart_cost" for="flexRadioDefault1">
+
+                                        <input type="radio" className='form-check-input' name="paymentMethod" id="flexRadioDefault1" value="COD"
+                                            checked={selectedPaymentMethod === 'COD'}
+                                            onChange={handlePaymentMethodChange}
+                                        />&nbsp;
+                                        <label class="form-check-label cart_cost" for="flexRadioDefault1">
                                             <b>COD</b>
-                                            </label>&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <input type="radio" className='form-check-input' name="paymentMethod" id="flexRadioDefault2" value="UPI" 
-                                             checked={selectedPaymentMethod === 'UPI'}
-                                             onChange={handlePaymentMethodChange}
-                                            />&nbsp;
-                                            <label class="form-check-label cart_cost" for="flexRadioDefault2"> <b>UPI</b>
+                                        </label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="radio" className='form-check-input' name="paymentMethod" id="flexRadioDefault2" value="UPI"
+                                            checked={selectedPaymentMethod === 'UPI'}
+                                            onChange={handlePaymentMethodChange}
+                                        />&nbsp;
+                                        <label class="form-check-label cart_cost" for="flexRadioDefault2"> <b>UPI</b>
                                         </label>
                                     </div>
                                     <div className='cart_cost'>
@@ -249,7 +242,7 @@ export default function CartPage() {
             </div></div>
     )
 
-  
+
 }
 
 

@@ -8,9 +8,9 @@ export default function OrderedItems() {
     const [confirmOrders, setconfirmOrders] = useState([])
     const [gotorders, setgotorders] = useState(true)
     const [noorders, setnoorders] = useState(false)
-    const[pastnoorders,setpastnoorders] = useState(false)
+    const [pastnoorders, setpastnoorders] = useState(false)
     const username = sessionStorage.getItem('username');
-    const url = 'https://ooj2f1apol.execute-api.us-west-2.amazonaws.com'
+    const url ='https://ooj2f1apol.execute-api.us-west-2.amazonaws.com'
     const usenavigate = useNavigate();
     const options = {
         year: "numeric",
@@ -27,7 +27,14 @@ export default function OrderedItems() {
         const fetchData = async () => {
             ref.current.continuousStart();
             if (username) {
-                await fetchpastorders();
+              const pastorders =  await fetchpastorders();
+              if(pastorders!==undefined){
+                setconfirmOrders(pastorders.sort((a,b)=>
+                new Date(b.date) - new Date(a.date)
+                ))
+               }
+            ref.current.complete();
+            setgotorders(false)
             } else {
                 ref.current.complete();
                 setgotorders(false)
@@ -42,20 +49,23 @@ export default function OrderedItems() {
 
     async function fetchpastorders() {
         var phone = sessionStorage.getItem('phone');
-        console.log("phone===", phone)
         try {
             const response = await fetch(`${url}/getallorders/${phone}`); // Replace with your actual API endpoint
             if (response.ok) {
                 const data = await response.json();
 
                 if (data.length !== 0) {
-                    console.log("Orderdetails===", data)
-                    console.log("data", data)
-                    setTimeout(() => {
-                        fetchcartitems(data)
+                  
+                    const userscarts = await fetchcartitems(phone)
 
-                    }, 1000);
-                }else{
+                    for (let i = 0; i < data.length; i++) {
+                        data[i].cartItems = userscarts.filter(usercart => {
+                            return usercart.orderid === data[i].orderid
+                        })
+
+                    }
+                       return data;
+                } else {
                     console.log("No orders")
                     ref.current.complete();
                     setgotorders(false)
@@ -63,7 +73,7 @@ export default function OrderedItems() {
 
                     return false
                 }
-                    
+
             } else {
                 console.error('Failed to fetch user');
                 return false;
@@ -75,42 +85,26 @@ export default function OrderedItems() {
 
     }
 
-    async function fetchcartitems(pastorders) {
-        for (let i = 0; i < pastorders.length; i++) {
+    async function fetchcartitems(phone) {
 
-            let orderid = pastorders[i].orderid
-            try {
-                const response = await fetch(`${url}/getallcartsitems/${orderid}`); // Replace with your actual API endpoint
-                if (response.ok) {
-                    const data = await response.json();
+        try {
+            const response = await fetch(`${url}/getallcartsitems`); // Replace with your actual API endpoint
+            if (response.ok) {
+                const data = await response.json();
 
-                    if (data.length !== 0) {
-                       
-                        pastorders[i].cartItems = data
-                    
-                    }else{
-                        pastorders[i].cartItems=[]
-                    }
-
-                } else {
-                    console.error('Failed to fetch data');
-
+                if (data.length !== 0) {
+                    const userscarts = data.filter(dta => {
+                        return dta.phoneno === phone
+                    })
+                    return userscarts
                 }
-            } catch (error) {
-                console.error('Error:', error);
             }
+        } catch (error) {
+            console.error('Error:', error);
         }
-        console.log("pastorders===",pastorders)
-        if(pastorders!==undefined){
-            setconfirmOrders(pastorders)
-        }
-        
-        ref.current.complete();
-        setgotorders(false)
-      
     }
 
-    function navigatetopage(){
+    function navigatetopage() {
         usenavigate('/SignIn')
     }
 
@@ -125,7 +119,7 @@ export default function OrderedItems() {
 
                         {noorders && <p className='my-2'>Please <a href='/SignIn' style={{ color: "blue", textDecoration: "underline" }}>SignIn</a> to See Past Orders</p>}
                         {gotorders && <Spinner animation="border" />}
-                      {pastnoorders&&  <p>No orders yet <a  onClick = {navigatetopage} style={{ color: "green", textDecoration: "underline" }}>Browse Foods</a></p>}
+                        {pastnoorders && <p>No orders yet <a onClick={navigatetopage} style={{ color: "green", textDecoration: "underline" }}>Browse Foods</a></p>}
                         <ul class="list-group">
                             {confirmOrders.map((CartItems, index) => (
                                 <>
@@ -145,10 +139,10 @@ export default function OrderedItems() {
                                             </div>
                                         </li>
                                     ))}
-                                  
+
                                     <div className='list-group-item order-details'>
                                         <div className='row'>
-                                        <div className='left-corner '>
+                                            <div className='left-corner '>
                                                 <h6 className='cart_cost'>Total: {CartItems.totalamount}</h6>
                                                 <h6 className='cart_cost'>Payment Mode: {CartItems.paymentmode}</h6>
                                                 <h6 className='cart_cost'>Address: {CartItems.address}</h6>
