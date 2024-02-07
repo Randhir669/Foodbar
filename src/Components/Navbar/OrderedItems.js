@@ -28,7 +28,8 @@ export default function OrderedItems() {
             ref.current.continuousStart();
             if (username) {
               const pastorders =  await fetchpastorders();
-              if(pastorders!==undefined){
+              console.log("pastorders",pastorders)
+              if(pastorders){
                 setconfirmOrders(pastorders.sort((a,b)=>
                 new Date(b.date) - new Date(a.date)
                 ))
@@ -106,6 +107,12 @@ export default function OrderedItems() {
 
     function navigatetopage() {
         usenavigate('/SignIn')
+
+    }
+
+    function navigatetomainpage() {
+        usenavigate('/')
+        
     }
 
 
@@ -117,9 +124,9 @@ export default function OrderedItems() {
                     <div className='col-lg-6'>
                         <h3 className='my-2'>Orders</h3>
 
-                        {noorders && <p className='my-2'>Please <a href='/SignIn' style={{ color: "blue", textDecoration: "underline" }}>SignIn</a> to See Past Orders</p>}
+                        {noorders && <p className='my-2'>Please <a href='/SignIn' style={{ color: "blue", textDecoration: "underline" ,cursor:'pointer'}}>SignIn</a> to See Past Orders</p>}
                         {gotorders && <Spinner animation="border" />}
-                        {pastnoorders && <p>No orders yet <a onClick={navigatetopage} style={{ color: "green", textDecoration: "underline" }}>Browse Foods</a></p>}
+                        {pastnoorders && <p>No orders yet <a onClick={navigatetomainpage} style={{ color: "green", textDecoration: "underline" ,cursor:'pointer' }}>Browse Foods</a></p>}
                         <ul class="list-group">
                             {confirmOrders.map((CartItems, index) => (
                                 <>
