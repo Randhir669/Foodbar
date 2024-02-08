@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { addToCart, removeFromCart, addconfirmorder } from '../Actions/CartActions'
 import { useNavigate } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 
 export default function CartPage() {
@@ -17,18 +19,19 @@ export default function CartPage() {
     const [address, setaddress] = useState('')
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
     const ref = useRef(null)
+    const MySwal = withReactContent(Swal)
     const url ='https://ooj2f1apol.execute-api.us-west-2.amazonaws.com'
     const savedaddress = sessionStorage.getItem('address');
+    const[confirmbtnloading,setconfirmbtnloading]=useState(false)
 
     const usenavigate = useNavigate()
 
 
 
-    useEffect(() => {
+    useEffect(() => {   
         ref.current.continuousStart()
         counttotatcost();
         ref.current.complete()
-        console.log("savedaddress", savedaddress, sessionStorage.getItem('address'))
         setaddress(savedaddress)
 
     }, [cartItems]);
@@ -61,17 +64,16 @@ export default function CartPage() {
     }
 
     const additem = (id, noOfItem) => {
-        debugger
         let temp = id;
         let temparray = [...cartItems];
         let updatedItem = temparray.filter(item => item.id === temp);
         updatedItem.cart = noOfItem + 1;
         temparray[temp] = updatedItem;
         dispatch(addToCart(updatedItem[0]));
-
     }
 
     async function confirmOrder() {
+        setconfirmbtnloading(true)
         var username = sessionStorage.getItem('username');
         var obj = {}
         obj.cartItems = cartItems
@@ -90,9 +92,26 @@ export default function CartPage() {
         setorderedItems(temp)
 
         if (username != null) {
-            dispatch(addconfirmorder(temp[0]))
-            dispatch({ type: 'Remove_All_from__CART' });
             const status = await storeordertodb(obj)
+            await  dispatch(addconfirmorder(temp[0]))
+           setTimeout(()=>{
+            setconfirmbtnloading(false)
+           },2000)
+           await dispatch({ type: 'Remove_All_from__CART' });
+            if(status){
+                MySwal.fire({
+                    title: <strong>Good Job {username}!</strong>,
+                    html: <i>your orders are successfully placed.Thank You!</i>,
+                    icon: 'success',
+                    showClass: {
+                        popup: 'fade-in',
+                      },
+                      customClass: {
+                        popup: 'slide-in',
+                      },
+                      
+                })
+            }
 
         } else {
             usenavigate('/SignIn')
@@ -227,7 +246,8 @@ export default function CartPage() {
 
                                     </div>
                                     <div>
-                                        <button className='btn btn-sm btn-success' onClick={confirmOrder}>Confirm Order</button>
+                                        <button className='btn btn-sm btn-success' onClick={confirmOrder}>
+                                        {confirmbtnloading ? <div className="spinner"></div> : "Confirm Order"}</button>
                                     </div>
                                 </li>
                             </>}</ul>

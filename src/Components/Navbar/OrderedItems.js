@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar'
 import Spinner from 'react-bootstrap/Spinner';
+import Stepper from 'react-stepper-horizontal';
 export default function OrderedItems() {
     //var confirmOrders = useSelector((state) => state.cart.confirmOrders);
     const ref = useRef(null)
@@ -34,13 +35,11 @@ export default function OrderedItems() {
                 new Date(b.date) - new Date(a.date)
                 ))
                }
-            ref.current.complete();
-            setgotorders(false)
             } else {
-                ref.current.complete();
-                setgotorders(false)
                 setnoorders(true)
             }
+            ref.current.complete();
+            setgotorders(false)
 
 
         };
@@ -153,10 +152,10 @@ export default function OrderedItems() {
                                                 <h6 className='cart_cost'>Total: {CartItems.totalamount}</h6>
                                                 <h6 className='cart_cost'>Payment Mode: {CartItems.paymentmode}</h6>
                                                 <h6 className='cart_cost'>Address: {CartItems.address}</h6>
+                                                <h6 className='cart_cost my-1'>{new Date(CartItems.date).toLocaleString("en-GB", options)}</h6>
                                             </div>
                                             <div className='right-corner '>
-                                                <button className='btn btn-sm btn-success'>{CartItems.status}</button>
-                                                <h6 className='cart_cost my-1'>{new Date(CartItems.date).toLocaleString("en-GB", options)}</h6>
+                                            <Stepper steps={ [{title: 'Orderd'  }, {title: 'Accepted'}, {title: 'Delivered'}] } activeStep={ 1 } />
                                             </div>
 
                                         </div>

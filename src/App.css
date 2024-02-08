@@ -135,6 +135,11 @@ animation: akcss .2s ease;
   flex: 2;
 }
 
+.middle{
+  text-align: center;
+  flex: 2;
+}
+
 .main{
   display:flex;
   justify-content: center;
@@ -178,5 +183,33 @@ animation: akcss .2s ease;
     margin-bottom: 1.3rem;
     font-size: 19px;
   }
+
+  .fade-in {
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    100% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .slide-in {
+    animation: slideIn 1s ease-in-out;
+  }
+  
+  @keyframes slideIn {
+    0% {
+      transform: translateY(100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  
 
   
